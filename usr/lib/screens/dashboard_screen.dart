@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'calendar_screen.dart';
 import 'apply_leave_screen.dart';
+import 'employees_screen.dart';
+import 'add_employee_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -14,7 +16,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     CalendarScreen(),
-    Center(child: Text('Employees List (Coming Soon)')),
+    EmployeesScreen(),
     Center(child: Text('Reports (Coming Soon)')),
   ];
 
@@ -84,7 +86,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               onTap: _onItemTapped,
             )
           : null,
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: _getFloatingActionButton(),
+    );
+  }
+
+  Widget? _getFloatingActionButton() {
+    if (_selectedIndex == 0) {
+      return FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,
@@ -93,7 +101,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
         label: const Text('Apply Leave'),
         icon: const Icon(Icons.add),
-      ),
-    );
+      );
+    } else if (_selectedIndex == 1) {
+      return FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddEmployeeScreen()),
+          );
+        },
+        label: const Text('Add Employee'),
+        icon: const Icon(Icons.person_add),
+      );
+    }
+    return null;
   }
 }
